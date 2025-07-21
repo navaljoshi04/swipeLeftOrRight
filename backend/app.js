@@ -28,7 +28,17 @@ connectWithDatabase();
 //! this is how you do it in real wordl:
 app.post("/signup", async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      gender,
+      age,
+      about,
+      skills,
+      photoUrl,
+    } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -39,6 +49,11 @@ app.post("/signup", async (req, res) => {
       lastName,
       email,
       password,
+      gender,
+      age,
+      photoUrl,
+      about,
+      skills,
     });
     await newUser.save();
     res
@@ -68,24 +83,30 @@ app.get("/user", async (req, res) => {
 app.delete("/user", async (req, res) => {
   try {
     const { userID } = req.body;
-    const user = await User.findByIdAndDelete( userID );
+    const user = await User.findByIdAndDelete(userID);
     res.status(200).send("user deleted successfully ");
   } catch (error) {
-    res.status(500).json({message:"error while deleting", error:error.message});
+    res
+      .status(500)
+      .json({ message: "error while deleting", error: error.message });
   }
 });
 
-//! to update the user: 
-app.patch("/user",async(req,res)=>{
+//! to update the user:
+app.patch("/user", async (req, res) => {
   try {
-    const userID= req.body.userID;
-    const data= req.body;
-    await User.findByIdAndUpdate({_id:userID}, data);
+    const userID = req.body.userID;
+    const data = req.body;
+    await User.findByIdAndUpdate({ _id: userID }, data,{
+      runValidators:true,
+    });
     res.send("user upated successfully");
   } catch (error) {
-    res.status(500).json({message:"error while updating", error:error.message})
+    res
+      .status(500)
+      .json({ message: "error while updating", error: error.message });
   }
-})
+});
 //!this is to see all the registered user;
 app.get("/feed", async (req, res) => {
   try {

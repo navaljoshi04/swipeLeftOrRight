@@ -6,8 +6,13 @@
 - 🔍 **API – Get User by Email**
 - 📰 **API – Feed Endpoint**: Get/Feed all the users
 - 🧾 **API – Get User by ID**
-- ❌ **Create a Delete User API**
-- 🆚 **Difference Between `PUT` and `PATCH`**
+- ❌ **API – Delete a User**
 - ♻️ **API – Update a User**
-- 📚 **Explore Mongoose Docs** for `Model` and `Schema`
-- 📧 **Update the User Using Email ID**
+- 🆚 **PUT vs PATCH** – Understanding the difference
+- 📚 **Explore Mongoose Docs** – Understand `Model` and `Schema`
+- 📧 **API – Update User Using Email ID**
+- ⚙️ **Schema Enhancements** from Mongoose documentation
+- ✅ **Add Validation Options**: `required`, `unique`, `lowercase`, `min`, `minLength`, `trim`
+- 🧠 **Custom Validator** – Create a custom validation function for `gender`
+- 🔧 **Improve DB Schema** – Apply appropriate validations on each field
+- 🕒 **Add Timestamps** to the schema using `{ timestamps: true }`
