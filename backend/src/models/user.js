@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import validator from "validator";
 //this is the schema that you are creating :
 const userSchema = new mongoose.Schema(
   {
@@ -18,10 +18,20 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid email address: " + value);
+        }
+      },
     },
     password: {
       type: String,
       required: true,
+      validate(value) {
+        if (!validator.isStrongPassword(value)) {
+          throw new Error("Enter a strong password : " + value);
+        }
+      },
     },
     age: {
       type: Number,
@@ -30,7 +40,12 @@ const userSchema = new mongoose.Schema(
     photoUrl: {
       type: String,
       default:
-        "https://www.freepik.com/premium-vector/character-avatar-isolated_374939900.htm#fromView=keyword&page=1&position=20&uuid=24798477-7919-47df-ac58-75099c018c76&query=User+Profile",
+        "https://i.pravatar.cc/150?img=3",
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("invalid photo url:" + value);
+        }
+      },
     },
     gender: {
       type: String,

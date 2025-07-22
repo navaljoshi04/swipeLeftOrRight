@@ -2,7 +2,9 @@ import express from "express";
 import connectWithDatabase from "./src/config/database.js";
 const app = express();
 import User from "./src/models/user.js";
+import validateSignUpData from "./src/utils/validation.js";
 
+import bcrypt from "bcrypt";
 //middlewares for parsing the incoming JSON request :
 app.use(express.json());
 //connecting with the database;
@@ -40,6 +42,12 @@ app.post("/signup", async (req, res) => {
       photoUrl,
     } = req.body;
 
+    //?this function is used to check the validation on firstname,lastname,email and password
+    validateSignUpData(req);
+
+    //? for the encryption of the password:
+    const passwordHash = await bcrypt.hash(password, 10);
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists .." });
@@ -48,7 +56,7 @@ app.post("/signup", async (req, res) => {
       firstName,
       lastName,
       email,
-      password,
+      password: passwordHash,
       gender,
       age,
       photoUrl,
@@ -93,12 +101,35 @@ app.delete("/user", async (req, res) => {
 });
 
 //! to update the user:
-app.patch("/user", async (req, res) => {
+app.patch("/user/:userID", async (req, res) => {
+  const userID = req.params.userID;
+  const data = req.body;
   try {
-    const userID = req.body.userID;
-    const data = req.body;
-    await User.findByIdAndUpdate({ _id: userID }, data,{
-      runValidators:true,
+    const allowedFieldsInUpdate = [
+      "firstName",
+      "lastName",
+      "photoUrl",
+      "skills",
+      "age",
+      "about",
+    ];
+    //validation for the email:
+    const isUpdateAllowed = Object.keys(req.body).every((k) =>
+      allowedFieldsInUpdate.includes(k)
+    );
+    if (!isUpdateAllowed) {
+      return res.status(400).json({ message: "updates are not allowed" });
+    }
+    //validation for skills length:
+    const { skills } = req.body;
+    const lengthOfSkills = skills.length;
+    if (lengthOfSkills > 6) {
+      return res
+        .status(401)
+        .json({ message: "length of skills should be less than 6" });
+    }
+    await User.findByIdAndUpdate({ _id: userID }, data, {
+      runValidators: true,
     });
     res.send("user upated successfully");
   } catch (error) {
@@ -107,6 +138,7 @@ app.patch("/user", async (req, res) => {
       .json({ message: "error while updating", error: error.message });
   }
 });
+
 //!this is to see all the registered user;
 app.get("/feed", async (req, res) => {
   try {
@@ -116,6 +148,30 @@ app.get("/feed", async (req, res) => {
     res.status(400).send("error while getting users" + error.message);
   }
 });
+
+app.post("/login", async (req, res) => {
+  try {
+    //phle email aur pass daalega bnda hume use verify krna h jo humare pass h stored db m:
+    const { email, password } = req.body;
+    //check if user with the email exists in db:
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(500).json({ message: "Invalid credentials.." });
+    }
+    // ab h password ko verify krwana second task:
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (isPasswordValid) {
+      return res.status(201).json({ message: "Logged in successfully...." });
+    } else {
+      return res.status(500).json({ message: "Invalid credentials.." });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "error while loggin ...", error: error.message });
+  }
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000....");
 });

@@ -16,3 +16,11 @@
 - 🧠 **Custom Validator** – Create a custom validation function for `gender`
 - 🔧 **Improve DB Schema** – Apply appropriate validations on each field
 - 🕒 **Add Timestamps** to the schema using `{ timestamps: true }`
+- 🔒 **API-Level Validations**
+  - Applied additional checks at the controller level, e.g., max skills allowed:
+    ```js
+    if (skills.length > 6) return res.status(400).send(...);
+    ```
+- 🧼 **Data Sanitization**
+  - Validate data in Signup API using validator functions.- Create password hash using bcrypt.hash and save the user.
+  - 🔐 Login API – Implemented authentication with proper input validation and user verification.
