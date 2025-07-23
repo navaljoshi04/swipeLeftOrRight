@@ -51,7 +51,7 @@
 
 - GET /profile – `Get the current user's profile (Protected route)`
 - PATCH /profile/edit – Update user profile data
-- PATCH /profile/updatePassword – `Change the user's password`
+- PATCH /profile/updatePassword – `Change the user's password update this password ..`
 
 💌 **Request System**
 `CONNECTION REQUEST ROUTER`

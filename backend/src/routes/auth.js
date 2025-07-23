@@ -7,6 +7,7 @@ import validateSignUpData from "../utils/validation.js";
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import userAuth from "../middlewares/auth.js";
 
 authRouter.post("/signup", async (req, res) => {
   try {
@@ -70,11 +71,7 @@ authRouter.post("/login", async (req, res) => {
       });
       console.log(token);
       //saving the token to cookie:
-      res.cookie("token", token, {
-        httpOnly: true, // safer from XSS
-        secure: false, // set to true in production (https)
-        sameSite: "Lax", // adjust depending on frontend/backend hosting
-      });
+      res.cookie("token", token);
       return res.status(201).json({ message: "Logged in successfully...." });
     } else {
       return res.status(500).json({ message: "Invalid credentials.." });
@@ -83,6 +80,20 @@ authRouter.post("/login", async (req, res) => {
     res
       .status(500)
       .json({ message: "error while loggin ...", error: error.message });
+  }
+});
+
+authRouter.post("/logout", userAuth, async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Not logged in." });
+    }
+    res.clearCookie("token");
+    return res.status(200).json({ message: "user logged out successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error while loging out ...", error: error.message });
   }
 });
 
