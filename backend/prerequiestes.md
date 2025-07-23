@@ -34,5 +34,53 @@
   - This token is then sent back and **stored in a cookie** on the client side.
   - On protected routes like `/profile`, the server reads the token from the cookie and **verifies** it using the same secret key.
   - If valid, it confirms the user's identity, allowing secure access to the requested data.
-  - - ⚙️ **Add the userAuth middleware** in profile api this middleware we can use whereever we want to secure the api
+  - ⚙️ **Add the userAuth middleware** in profile api this middleware we can use whereever we want to secure the api
   - ♻️ **set the expiry** of jwt token and cookie to 1 day.
+
+## 📧 SwipeLeftOrRight API'S
+
+🟢 **Authentication**
+`AUTH ROUTER`
+
+- POST /signup – `Create a new user account`
+- POST /login – Log in and receive JWT token in cookie
+- POST /logout – `Log out and clear token cookie`
+
+👤 **User Profile**
+`PROFILE ROUTER` - we can create separate router these routers will have the apis that are related to them.
+
+- GET /profile – `Get the current user's profile (Protected route)`
+- PATCH /profile/edit – Update user profile data
+- PATCH /profile/updatePassword – `Change the user's password`
+
+💌 **Request System**
+`CONNECTION REQUEST ROUTER`
+
+- POST /request/send/interested/:userId – `Express interest in another user`
+- POST /request/send/ignored/:userId – `Ignore another user`
+
+🛠️ **Review Requests**
+
+- POST /request/review/accepted/:requestId – `Accept a received request`
+- POST /request/review/rejected/:requestId – `Reject a received request`
+
+🤝 **Connections & Feed**
+`USER CONNECTION STATUS ROUTER`
+
+- GET /connections – `View your mutual connections`
+- GET /request/recieved – See who has sent you requests
+- GET /feed – Browse profiles of other users
+  ℹ️ Status values: `ignored, interested, accepted, rejected`
+
+- 📘 Read the documentation of express.Router
+  Understand how express.Router helps in modularizing route handling in Express applications.
+
+- 📁 Create a routes/ folder
+  Organize your application by managing all route-related logic in one place.
+
+- 🧩 Inside routes/, create the following routers:
+  - authRouter.js – for authentication-related routes (login, signup, logout, etc.)
+  - profileRouter.js – to handle user profile-related APIs
+  - requestRouter.js – for handling requests (such as book borrowing, friend requests, etc.)
+
+-🔌 Import and use the routers in app.js - Replace direct route definitions in app.js with these modular routers. - ✅ Why use routers? - Makes your code cleaner and easier to maintain - Helps you separate concerns (auth logic stays in auth router) - Encourages scalability as your app grows
