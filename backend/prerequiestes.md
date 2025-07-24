@@ -72,15 +72,39 @@
 - GET /feed – Browse profiles of other users
   ℹ️ Status values: `ignored, interested, accepted, rejected`
 
-- 📘 Read the documentation of express.Router
+- 📘 **Read the documentation of express.Router**
   Understand how express.Router helps in modularizing route handling in Express applications.
 
-- 📁 Create a routes/ folder
+- 📁 **Create a routes/ folder**
   Organize your application by managing all route-related logic in one place.
 
-- 🧩 Inside routes/, create the following routers:
+- 🧩 **Inside routes/, create the following routers**:
   - authRouter.js – for authentication-related routes (login, signup, logout, etc.)
   - profileRouter.js – to handle user profile-related APIs
   - requestRouter.js – for handling requests (such as book borrowing, friend requests, etc.)
 
--🔌 Import and use the routers in app.js - Replace direct route definitions in app.js with these modular routers. - ✅ Why use routers? - Makes your code cleaner and easier to maintain - Helps you separate concerns (auth logic stays in auth router) - Encourages scalability as your app grows
+-🔌 **Import and use the routers in app.js** - Replace direct route definitions in app.js with these modular routers. - ✅ Why use routers? - Makes your code cleaner and easier to maintain - Helps you separate concerns (auth logic stays in auth router) - Encourages scalability as your app grows
+
+## 📚 Daily Task Notes
+---
+### ✅ Reading
+- 📖 **Read the article about compound indexes**  
+  Understand **why we use them** and **why unnecessary indexes should be avoided**.
+---
+### 🛠️ Development
+- 🧩 **Create Connection Request Schema**
+
+- 🔗 **Implement Send Connection Request API**  
+  Think through **all edge cases** such as:
+  - Duplicate requests
+  - Invalid user IDs
+  - Self-connections
+  - Valid status values (`interested`, `ignored`)
+---
+### 📘 Mongoose Practice
+
+- 🔍 **Review Queries in Mongoose**
+  - `$or` query
+  - `$and` query
+  - `schema.pre` function
+  
