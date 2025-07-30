@@ -59,4 +59,34 @@ requestRouter.post(
     }
   }
 );
+
+
+requestRouter.post("/request/review/:status/:requestId",userAuth,async(req,res)=>{
+  try {
+    //krna kya hai hume;
+    //1. logged in userid hai wo toUserid k equal hona chaye:
+    //2. status interested hona chaye tbhi tum accept ya reject kroge 
+    const loggedInUser= req.user;
+    const {status,requestId}= req.params; 
+    const allowedStatus=["accepted","rejected"];
+    if(!allowedStatus.includes(status)){
+      return res.status(400).json({message:"Status is not valid ....."})
+    }
+    //to find the user id le li and jo us user ne req bheji hogi uski id loggedin user ki id k equal hogi:
+    const connectionRequest = await ConnectionRequest.findOne({
+      _id:requestId,
+      toUserId: loggedInUser._id,
+      status:"interested"
+    });
+    if(!connectionRequest){
+      return res.status(404).json({message:"Connection request not found ..."});
+    }
+    connectionRequest.status= status; 
+    const data = await connectionRequest.save();
+    res.json({message:"Connection request "+ status , data});
+  } catch (error) {
+    res.status(500).json({message:"error while accepting the request...", error:error.message });
+  }
+});
+
 export default requestRouter;

@@ -54,6 +54,8 @@ authRouter.post("/signup", async (req, res) => {
   }
 });
 
+
+
 authRouter.post("/login", async (req, res) => {
   try {
     //phle email aur pass daalega bnda hume use verify krna h jo humare pass h stored db m:
@@ -82,6 +84,7 @@ authRouter.post("/login", async (req, res) => {
       .json({ message: "error while loggin ...", error: error.message });
   }
 });
+
 
 authRouter.post("/logout", userAuth, async (req, res) => {
   try {

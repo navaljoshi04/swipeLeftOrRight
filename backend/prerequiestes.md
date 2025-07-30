@@ -86,12 +86,18 @@
 -🔌 **Import and use the routers in app.js** - Replace direct route definitions in app.js with these modular routers. - ✅ Why use routers? - Makes your code cleaner and easier to maintain - Helps you separate concerns (auth logic stays in auth router) - Encourages scalability as your app grows
 
 ## 📚 Daily Task Notes
+
 ---
+
 ### ✅ Reading
+
 - 📖 **Read the article about compound indexes**  
   Understand **why we use them** and **why unnecessary indexes should be avoided**.
+
 ---
+
 ### 🛠️ Development
+
 - 🧩 **Create Connection Request Schema**
 
 - 🔗 **Implement Send Connection Request API**  
@@ -100,11 +106,51 @@
   - Invalid user IDs
   - Self-connections
   - Valid status values (`interested`, `ignored`)
+
 ---
+
 ### 📘 Mongoose Practice
 
 - 🔍 **Review Queries in Mongoose**
   - `$or` query
   - `$and` query
   - `schema.pre` function
-  
+
+# 🔗 Accept/Reject Connection Request API
+
+## ✅ Objective
+
+## Implement the **Accept/Reject Connection Request API**, handling all possible edge cases and ensuring data integrity.
+
+## 📌 Core Considerations
+
+- 🛑 **Duplicate Requests**  
+  Avoid processing the same connection request multiple times.
+- ❌ **Invalid User IDs**  
+  Ensure both `fromUserId` and `toUserId` are valid and exist in the system.
+- 📝 **Valid Status Values Only**  
+  Accept only `accepted` or `rejected` as status values.
+
+```js
+// Sample Query
+ConnectionRequest.findOne({
+  _id: requestId,
+  toUserId: loggedInUser._id,
+  status: "interested"
+});
+
+## 📖 Study Topics
+
+- Read about **`ref`** and **`populate`** in Mongoose:
+  - Understand **why** they are used.
+  - Understand **how** they help in defining relationships between MongoDB documents.
+
+- Learn how to **create relationships between schemas** using the `ref` property in Mongoose.
+
+---
+## 🛠️ Implementation Task
+
+- Create the following API route: `/user/requests/recieved`
+- Ensure all **validations** and **authorization checks** are properly implemented.
+- The endpoint should return the list of requests received by a user.
+```

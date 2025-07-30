@@ -3,25 +3,26 @@ import connectWithDatabase from "./src/config/database.js";
 const app = express();
 import cookieParser from "cookie-parser";
 
-
-
-
-
 //middlewares for parsing the incoming JSON request :
 app.use(express.json());
 
+
 //it is used so the parse cookie attached to the client (req).
 app.use(cookieParser());
+
 
 //now will import the routers that we have created till now (these help in implying separation of concerns)
 import authRouter from "./src/routes/auth.js";
 import profileRouter from "./src/routes/profile.js";
 import requestRouter from "./src/routes/request.js";
+import userRouter from "./src/routes/user.js";
+
 
 //now we can use the routes now like this :
 app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",requestRouter);
+app.use("/", userRouter);
 
 
 //connecting with the database;
