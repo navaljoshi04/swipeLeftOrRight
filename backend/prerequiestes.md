@@ -153,4 +153,5 @@ ConnectionRequest.findOne({
 - Create the following API route: `/user/requests/recieved`
 - Ensure all **validations** and **authorization checks** are properly implemented.
 - The endpoint should return the list of requests received by a user.
+- create get api/user/connections` for the connections it should all the connection that you are having as of now .
 ```
