@@ -155,3 +155,66 @@ ConnectionRequest.findOne({
 - The endpoint should return the list of requests received by a user.
 - create get api/user/connections` for the connections it should all the connection that you are having as of now .
 ```
+
+# MongoDB & API Development Notes
+
+---
+
+## ✅ API Development
+
+### 🔹 Logic for GET/FEED API
+
+- Understand the purpose of the feed (e.g., latest posts, user-specific content).
+- Design endpoint: `GET /api/feed`
+- Fetch data from MongoDB with appropriate filters.
+- Use sorting, filtering, and limiting.
+- Always return consistent JSON responses (with status codes, message, and data).
+
+---
+
+## 🧪 MongoDB Query Operators
+
+### 🔹 `$nin` — Not In
+
+- Selects documents where the field's value **is not in** the specified array.
+
+### 🔹 `$ne` — Not Equal
+
+- Selects documents where the field's value **is not equal to** the specified value.
+
+### 🔹 `$and` — Logical AND
+
+- Combines multiple conditions using logical AND.
+
+---
+
+## 📦 Pagination
+
+### 🔹 Purpose
+
+- Divides large datasets into smaller, manageable chunks.
+- Improves performance and user experience.
+- Enables navigation between pages of data.
+
+---
+
+## 🔁 `skip()`
+
+### 🔹 Purpose
+
+- Skips the first N documents in a result set.
+- Commonly used to implement pagination.
+- Helps jump to a specific offset in data retrieval.
+
+---
+
+## 🔂 `limit()`
+
+### 🔹 Purpose
+
+- Restricts the number of documents returned in a query.
+- Useful for controlling page size in paginated results.
+- Improves query performance and bandwidth efficiency.
+- 🔹 `Difference between Query and Params`
+
+---
