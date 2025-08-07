@@ -2,14 +2,20 @@ import express from "express";
 import connectWithDatabase from "./src/config/database.js";
 const app = express();
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
+//cors middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 //middlewares for parsing the incoming JSON request :
 app.use(express.json());
 
-
 //it is used so the parse cookie attached to the client (req).
 app.use(cookieParser());
-
 
 //now will import the routers that we have created till now (these help in implying separation of concerns)
 import authRouter from "./src/routes/auth.js";
@@ -17,13 +23,11 @@ import profileRouter from "./src/routes/profile.js";
 import requestRouter from "./src/routes/request.js";
 import userRouter from "./src/routes/user.js";
 
-
 //now we can use the routes now like this :
-app.use("/",authRouter);
-app.use("/",profileRouter);
-app.use("/",requestRouter);
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
 app.use("/", userRouter);
-
 
 //connecting with the database;
 connectWithDatabase();
@@ -31,7 +35,6 @@ connectWithDatabase();
 app.listen(3000, () => {
   console.log("Server is running on port 3000....");
 });
-
 
 //! hardcoded way of passing the data (using the instance of model):
 // app.post("/signup", async (req, res) => {
